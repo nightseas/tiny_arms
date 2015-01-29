@@ -5,4 +5,4 @@ All hardware files are located in 'hardware' directry, including shematic, PCB, 
 
 R0A is a alpha version, and is under test now.
 
-Software is coming soon...
+Software is available, and keeps updating.
