@@ -675,7 +675,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -694,23 +694,6 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
-      <WatchWindow1>
-        <Ww>
-          <count>0</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>SPI1-&gt;SR</ItemText>
-        </Ww>
-        <Ww>
-          <count>1</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>isLinkedNow</ItemText>
-        </Ww>
-        <Ww>
-          <count>2</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>isLinkedNow</ItemText>
-        </Ww>
-      </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>
@@ -953,7 +936,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>124</TopLine>
+      <TopLine>125</TopLine>
       <CurrentLine>127</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Libraries\CMSIS\Device\ST\STM32F0xx\Source\Templates\arm\startup_stm32f030.s</PathWithFileName>
@@ -1265,8 +1248,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1237</TopLine>
-      <CurrentLine>1241</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_spi.c</PathWithFileName>
       <FilenameWithoutPath>stm32f0xx_spi.c</FilenameWithoutPath>
@@ -1369,7 +1352,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>70</TopLine>
+      <TopLine>65</TopLine>
       <CurrentLine>71</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\UserCodes\SourceCodes\platform.c</PathWithFileName>
@@ -1385,8 +1368,8 @@
       <Focus>0</Focus>
       <ColumnNumber>13</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>6</TopLine>
-      <CurrentLine>7</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\UserCodes\SourceCodes\usart.c</PathWithFileName>
       <FilenameWithoutPath>usart.c</FilenameWithoutPath>
@@ -1481,8 +1464,8 @@
       <Focus>0</Focus>
       <ColumnNumber>1</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>93</TopLine>
-      <CurrentLine>104</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\UserCodes\SourceCodes\spi.c</PathWithFileName>
       <FilenameWithoutPath>spi.c</FilenameWithoutPath>
@@ -1535,10 +1518,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>16</ColumnNumber>
+      <ColumnNumber>2</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>275</TopLine>
-      <CurrentLine>280</CurrentLine>
+      <TopLine>67</TopLine>
+      <CurrentLine>68</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\UserCodes\SourceCodes\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -1551,10 +1534,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2954140</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>38</TopLine>
+      <CurrentLine>70</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\UserCodes\SourceCodes\stm32f0xx_it.c</PathWithFileName>
       <FilenameWithoutPath>stm32f0xx_it.c</FilenameWithoutPath>
@@ -1585,8 +1568,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>448</TopLine>
-      <CurrentLine>454</CurrentLine>
+      <TopLine>419</TopLine>
+      <CurrentLine>456</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\UserCodes\SourceCodes\enc28j60.c</PathWithFileName>
       <FilenameWithoutPath>enc28j60.c</FilenameWithoutPath>

@@ -69,7 +69,8 @@ void SPI_Config(void)
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;		//SPI Clock Polarity
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;	//SPI Clock Phase
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8; //6MHz
+  //(Work around E1) If SCLK < 8MHz, operation to MAC registers of ENC28J60 may be unavailable
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4; //12MHz
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPI1, &SPI_InitStructure);

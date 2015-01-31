@@ -15,241 +15,31 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define RW_SIZE				0xFF
-#define MAX_DAT_LEN		10
+#define MAX_DAT_LEN		1500
 
+#define HTONS(n) (uint16_t)((((uint16_t) (n)) << 8) | (((uint16_t) (n)) >> 8))
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-unsigned char ReadBuffer[0xFF]={0};
-unsigned char WriteBuffer[0xFF]={0};
-int CmdNum;
-int DevAddr, RegAddr, DataLen;
+uint8_t hostMac[6] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
+uint16_t hostIpaddr[2]={0x0A01, 0x0102};
+
+uint8_t dstMac[6];
+uint16_t dstIpaddr[2];
+
+uint8_t isLinkedNow = 0, isLinkedBefore = 0;
+uint8_t pktBuffer[MAX_DAT_LEN];
+uint32_t pktLen = 0;
+
+struct net_eth_hdr *eth_hdr;
+struct net_arp_hdr *arp_hdr;
+struct net_icmpip_hdr *icmp_hdr;
+
+	
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-void blink_led(void)
-{
-	for(int i=0;i<3;i++)
-	{
-		Sys_LED_On(1);
-		Sys_Delay_MS(200);
-		Sys_LED_Off(1);
-		Sys_Delay_MS(200);
-	}
-}
 
 
-void Cmd_MainMenu(void)
-{
-	int i, ret;
-	int TempData;
-	printf("\n===== Night Debuger (I2C Mode) =====\n");
-	printf("1.Write Cmd\n");
-	printf("2.Write Data\n");
-	printf("3.Random Read Data\n");
-	printf("4.Current Read Data\n");
-	printf("5.Scan I2C Bus\n");
-	printf("Input>");
-	scanf("%d", &CmdNum);
-	printf("\n");
-	switch(CmdNum)
-	{
-		case 1:
-			printf("\nDev Addr>");
-			scanf("%x", &DevAddr);
-			printf("\nCmd Data>");
-			scanf("%x", &RegAddr);
-			ret = I2C2_WriteCmd((uint8_t)(DevAddr<<1), (uint8_t)RegAddr);
-			if(ret != I2C_SUCCESS)
-			{
-				printf("\nOperation failed, error no %d.\n", ret);
-				break;
-			}
-		break;
-			
-		case 2:
-			printf("\nDev Addr>");
-			scanf("%x", &DevAddr);
-			printf("\nReg Addr>");
-			scanf("%x", &RegAddr);
-			printf("\nData Num(1-8)>");
-			scanf("%d", &DataLen);
-			if(DataLen>0 && DataLen<=MAX_DAT_LEN)
-			{
-				for(i=0;i<DataLen;i++)
-				{
-					printf("\nData[%d]>", i+1);
-					scanf("%x", &TempData);
-					WriteBuffer[i] = (uint8_t)TempData;
-				}
-				ret = I2C2_WriteBuffer((uint8_t)(DevAddr<<1), (uint8_t)RegAddr, WriteBuffer, (uint16_t)DataLen);		
-				if(ret != I2C_SUCCESS)
-				{
-					printf("\nOperation failed, error no %d.\n", ret);
-					break;
-				}
-			}
-			else
-			{
-				printf("\nErr: Wrong Num!\n");
-			}			
-		break;
-			
-		case 3:
-			printf("\nDev Addr>");
-			scanf("%x", &DevAddr);
-			printf("\nReg Addr>");
-			scanf("%x", &RegAddr);
-			printf("\nData Num(1-8)>");
-			scanf("%d", &DataLen);
-			if(DataLen>0 && DataLen<=MAX_DAT_LEN)
-			{
-				ret = I2C2_RandomRead((uint8_t)(DevAddr<<1), (uint8_t)RegAddr, ReadBuffer, (uint16_t)DataLen);		
-				if(ret != I2C_SUCCESS)
-				{
-					printf("\nOperation failed, error no %d.\n", ret);
-					break;
-				}
-				for(i=0;i<DataLen;i++)
-				{
-					printf("\nData[%d]=0x%02x", i+1, (int)ReadBuffer[i]);
-				}				
-			}
-			else
-			{
-				printf("\nErr: Wrong Num!\n");
-			}			
-		break;
-		
-		case 4:
-			printf("\nDev Addr>");
-			scanf("%x", &DevAddr);
-			printf("\nData Num(1-8)>");
-			scanf("%d", &DataLen);
-			if(DataLen>0 && DataLen<=MAX_DAT_LEN)
-			{
-				ret = I2C2_CurrentRead((uint8_t)(DevAddr<<1), ReadBuffer, (uint16_t)DataLen);		
-				if(ret != I2C_SUCCESS)
-				{
-					printf("\nOperation failed, error no %d.\n", ret);
-					break;
-				}
-				for(i=0;i<DataLen;i++)
-				{
-					printf("\nData[%d]=0x%02x", i+1, (int)ReadBuffer[i]);
-				}				
-			}
-			else
-			{
-				printf("\nErr: Wrong Num!\n");
-			}			
-		break;
-			
-		case 5:
-			printf("\nScaning I2C bus...\n");
-			for(i=0;i<=0x7F;i++)		
-			{
-				if(I2C2_GetStatus(i<<1) == I2C_SUCCESS)
-					printf("Find dev 0x%02x!\n", i);
-			}
-		break;	
-			
-		default:
-			printf("\nIncorrect Number!\n\n");
-		break;
-	}
-	printf("\nPress any key...\n");
-	Uart_GetChar();
-}
-
-unsigned char tmp;
-
-void crc_test(void)
-{
-	uint32_t crc_src32[]={
-		0x00001021, 0x20423063, 0x408450a5, 0x60c670e7, 0x9129a14a, 0xb16bc18c,
-    0xd1ade1ce, 0xf1ef1231, 0x32732252, 0x52b54294, 0x72f762d6, 0x93398318,
-    0xa35ad3bd, 0xc39cf3ff, 0xe3de2462, 0x34430420, 0x64e674c7, 0x44a45485,
-    0xa56ab54b, 0x85289509, 0xf5cfc5ac, 0xd58d3653, 0x26721611, 0x063076d7,
-    0x569546b4, 0xb75ba77a, 0x97198738, 0xf7dfe7fe, 0xc7bc48c4, 0x58e56886,
-    0x78a70840, 0x18612802, 0xc9ccd9ed, 0xe98ef9af, 0x89489969, 0xa90ab92b,
-    0x4ad47ab7, 0x6a961a71, 0x0a503a33, 0x2a12dbfd, 0xfbbfeb9e, 0x9b798b58,
-    0xbb3bab1a, 0x6ca67c87, 0x5cc52c22, 0x3c030c60, 0x1c41edae, 0xfd8fcdec,
-    0xad2abd0b, 0x8d689d49, 0x7e976eb6, 0x5ed54ef4, 0x2e321e51, 0x0e70ff9f,
-    0xefbedfdd, 0xcffcbf1b, 0x9f598f78, 0x918881a9, 0xb1caa1eb, 0xd10cc12d,
-    0xe16f1080, 0x00a130c2, 0x20e35004, 0x40257046, 0x83b99398, 0xa3fbb3da,
-    0xc33dd31c, 0xe37ff35e, 0x129022f3, 0x32d24235, 0x52146277, 0x7256b5ea,
-    0x95a88589, 0xf56ee54f, 0xd52cc50d, 0x34e224c3, 0x04817466, 0x64475424,
-    0x4405a7db, 0xb7fa8799, 0xe75ff77e, 0xc71dd73c, 0x26d336f2, 0x069116b0,
-    0x76764615, 0x5634d94c, 0xc96df90e, 0xe92f99c8, 0xb98aa9ab, 0x58444865,
-    0x78066827, 0x18c008e1, 0x28a3cb7d, 0xdb5ceb3f, 0xfb1e8bf9, 0x9bd8abbb,
-    0x4a755a54, 0x6a377a16, 0x0af11ad0, 0x2ab33a92, 0xed0fdd6c, 0xcd4dbdaa,
-    0xad8b9de8, 0x8dc97c26, 0x5c644c45, 0x3ca22c83, 0x1ce00cc1, 0xef1fff3e,
-    0xdf7caf9b, 0xbfba8fd9, 0x9ff86e17, 0x7e364e55, 0x2e933eb2, 0x0ed11ef0
-	};
-	printf("\nCRC Test...\n");
-	
-	CRC_Config_32Bit(0);
-	Sys_Delay_MS(100);
-	printf("CRC32=0x%08X\nExpect: 0xEBF5058C\n", CRC_Calc_32Bits(crc_src32, sizeof(crc_src32)/4));
-	Sys_Delay_MS(100);
-}
-
-void TIM1_Test()
-{
-	printf("\nTIM1 PWM Test...\n");
-	TIM1_PWM_Config(1000000);
-	while(1)
-	{
-		for(int i=0;i<1000;i++)
-		{
-			TIM1_PWM_SetDuty(1, i);
-			TIM1_PWM_SetDuty(2, 1000-i);
-			Sys_Delay_MS(1);
-		}	
-		for(int i=1000;i>0;i--)
-		{
-			TIM1_PWM_SetDuty(1, i);
-			TIM1_PWM_SetDuty(2, 1000-i);
-			Sys_Delay_MS(1);
-		}	
-	}
-}
-
-void TIM_General_Test()
-{
-	printf("\nTIM General Test...\n");
-	TIM15_General_Config(1000);
-	TIM16_General_Config(1000);
-	TIM17_General_Config(1000);
-}
-
-void TIM_PWM_Test()
-{
-	printf("\nTIM PWM Output Test...\n");
-	TIM15_PWM_Config(1000000);
-	TIM16_PWM_Config(50000);
-	TIM17_PWM_Config(10000000);
-	
-	TIM16_PWM_SetDuty(1, 251);
-	TIM17_PWM_SetDuty(1, 763);
-
-	while(1)
-	{
-		for(int i=0;i<1000;i++)
-		{
-			TIM15_PWM_SetDuty(1, i);
-			Sys_Delay_MS(1);
-		}	
-		for(int i=1000;i>0;i--)
-		{
-			TIM15_PWM_SetDuty(1, i);
-			Sys_Delay_MS(1);
-		}	
-	}
-}
-
-unsigned char  mymac[6]={0x00,0x11,0x22,0x33,0x44,0x55};
-uint8_t isLinkedNow = 0, isLinkedBefore = 0;
+extern uint32_t UpDownFlag;
 
 /**
   * @brief  Main program.
@@ -258,39 +48,129 @@ uint8_t isLinkedNow = 0, isLinkedBefore = 0;
   */
 int main(void)
 {	
+	//Init system and pheripherals
 	Platform_Config();
 	printf("System init complete!\n");	
-	
-	enc28j60Init(mymac);	
-	printf("ENC28J60 version: 0x%02X\n", enc28j60getrev());
-	
-	enc28j60RegDump();
 
+	//Init NetDev
+	ENC28J60_Init(hostMac);		
+	printf("NetDev init complete!\n");	
+	
+	//Init packet buffer of NIC
+	arp_hdr = (struct net_arp_hdr *) malloc (sizeof(struct net_arp_hdr));
+	icmp_hdr = (struct net_icmpip_hdr *) malloc (sizeof(struct net_icmpip_hdr));
+	
+	memset(pktBuffer, 0, sizeof(pktBuffer));
+	for(int i=0; i<200; i++)
+	{
+		pktBuffer[i] = i;
+	}
+	
+	//Init heart beat LED
 	TIM1_PWM_Config(1000000);
 	TIM1_PWM_SetDuty(1, 0);
-	TIM1_PWM_SetDuty(2, 0);
-	
+	TIM1_PWM_SetDuty(2, 0);	
 	TIM15_General_Config(1000);
+	
+	printf("=== ARP & ICMP Test Program ===\n  By Nights 2015-01-31\n");	
 	
 	while(1)
 	{
-		if(enc28j60_mac_is_linked() == 0)
-			isLinkedNow = 1;
-		else
-			isLinkedNow = 0;
+		//Check Link
+		{
+			isLinkedNow = ENC28J60_GetLinkStatus();
+			
+			if(isLinkedBefore == ENC_LINK_DOWN && isLinkedNow == ENC_LINK_UP)
+				printf("NetDev: link up!\n");
+			else if(isLinkedBefore == ENC_LINK_UP && isLinkedNow == ENC_LINK_DOWN)
+				printf("NetDev: link down!\n");	
+			
+			isLinkedBefore = isLinkedNow;
+		}
 		
-		if(isLinkedBefore == 0 && isLinkedNow == 1)
-			printf("ENC28J60 link up!\n");
-		else if(isLinkedBefore == 1 && isLinkedNow == 0)
-			printf("ENC28J60 link down!\n");
-		
-		isLinkedBefore = isLinkedNow;
-		
-		Sys_Delay_MS(100);
+		//ARP & ICMP responding.
+		if(isLinkedNow == ENC_LINK_UP)
+		{
+			pktLen = ENC28J60_PacketReceive(pktBuffer, sizeof(pktBuffer));
+			
+			if(pktLen)
+			{
+//				// Dump the pkt.
+//				printf("NetDev: received data:");
+//				for(int i=0; i<pktLen; i++)
+//				{
+//					printf(" %02X", pktBuffer[i]);
+//				}
+//				printf("\n---\n");
+				
+				// Check if it's an ARP pkt.
+				memcpy(arp_hdr, pktBuffer, sizeof(struct net_arp_hdr));				
+				//arp_hdr = (struct net_arp_hdr *) &pktBuffer[0];
+				if(arp_hdr->ethhdr.type == HTONS(UIP_ETHTYPE_ARP) && arp_hdr->opcode == HTONS(ARP_REQUEST))
+				{
+					printf("NetDev: received ARP request from %d.%d.%d.%d\n", 
+						(arp_hdr->sipaddr[0] & 0xFF), (arp_hdr->sipaddr[0] >> 8), (arp_hdr->sipaddr[1] & 0xFF), (arp_hdr->sipaddr[0] >> 8));
+					/* The reply opcode is 2. */
+					arp_hdr->opcode = HTONS(2);
+
+					memcpy(arp_hdr->dhwaddr.addr, arp_hdr->shwaddr.addr, 6);
+					memcpy(arp_hdr->shwaddr.addr, hostMac, 6);
+					memcpy(arp_hdr->ethhdr.src.addr, hostMac, 6);
+					memcpy(arp_hdr->ethhdr.dest.addr, arp_hdr->dhwaddr.addr, 6);
+					
+					arp_hdr->dipaddr[0] = arp_hdr->sipaddr[0];
+					arp_hdr->dipaddr[1] = arp_hdr->sipaddr[1];
+					arp_hdr->sipaddr[0] = HTONS(hostIpaddr[0]);
+					arp_hdr->sipaddr[1] = HTONS(hostIpaddr[1]);
+
+					arp_hdr->opcode = HTONS(ARP_REPLY);
+					
+					memcpy(pktBuffer, arp_hdr, sizeof(struct net_arp_hdr));
+					printf("NetDev: sending ARP reply...");
+					ENC28J60_PacketSend(pktBuffer, sizeof(struct net_arp_hdr));
+					printf("done!\n");
+				}
+				// Check if it's an ICMP pkt.
+				else if(arp_hdr->ethhdr.type == HTONS(UIP_ETHTYPE_IP))
+				{
+					memcpy(icmp_hdr, pktBuffer, sizeof(struct net_icmpip_hdr));
+					if(icmp_hdr->proto == UIP_PROTO_ICMP && icmp_hdr->type == ICMP_ECHO)
+					{
+						printf("NetDev: received ICMP request from %d.%d.%d.%d\n", 
+						(icmp_hdr->srcipaddr[0] & 0xFF), (icmp_hdr->srcipaddr[0] >> 8), (icmp_hdr->srcipaddr[1] & 0xFF), (icmp_hdr->srcipaddr[0] >> 8));
+						// Dill with MAC part
+						memcpy(icmp_hdr->ethhdr.dest.addr, icmp_hdr->ethhdr.src.addr, 6);		
+						memcpy(icmp_hdr->ethhdr.src.addr, hostMac, 6);						
+						
+						// Dill with IP&ICMP part
+						memcpy(icmp_hdr->destipaddr, icmp_hdr->srcipaddr, sizeof(icmp_hdr->srcipaddr));
+						icmp_hdr->srcipaddr[0] = HTONS(hostIpaddr[0]);
+						icmp_hdr->srcipaddr[1] = HTONS(hostIpaddr[1]);
+						icmp_hdr->type = ICMP_ECHO_REPLY;
+						if(icmp_hdr->icmpchksum >= HTONS(0xffff - (ICMP_ECHO << 8)))
+						{
+							icmp_hdr->icmpchksum += HTONS(ICMP_ECHO << 8) + 1;
+						}
+						else
+						{
+							icmp_hdr->icmpchksum += HTONS(ICMP_ECHO << 8);
+						}	
+						memcpy(pktBuffer, icmp_hdr, sizeof(struct net_icmpip_hdr));
+						
+						printf("NetDev: sending ICMP reply...");
+						ENC28J60_PacketSend(pktBuffer, sizeof(struct net_icmpip_hdr) + UIP_LLH_LEN);
+						printf("done!\n");
+					}
+					else
+						printf("NetDev: Unknown IP pkt.\n");
+				}
+				else
+					printf("NetDev: Unknown type of pkt.\n");
+				
+			}
+		}
 	}
 	
-//	while(1)
-//		Cmd_MainMenu();
 }
 
 

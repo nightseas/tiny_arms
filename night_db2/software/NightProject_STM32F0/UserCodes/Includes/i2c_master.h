@@ -31,7 +31,7 @@ enum I2C_STAT
 extern void I2C2_Config(void);
 extern int I2C2_WriteCmd(uint8_t DevAddr, uint8_t CmdData);
 extern int I2C2_WriteByte(uint8_t DevAddr, uint8_t RegAddr, uint8_t RegData);
-extern int I2C2_WriteBuffer(uint8_t DevAddr, uint8_t RegAddr, uint8_t* DataBuf, uint16_t DataLen);
+extern int I2C2_BufferWrite(uint8_t DevAddr, uint8_t RegAddr, uint8_t* DataBuf, uint16_t DataLen);
 extern int I2C2_RandomRead(uint8_t DevAddr, uint8_t RegAddr, uint8_t* DataBuf, uint16_t DataLen);
 extern int I2C2_CurrentRead(uint8_t DevAddr, uint8_t* DataBuf,  uint16_t DataLen);
 extern int I2C2_GetStatus(uint8_t DevAddr);

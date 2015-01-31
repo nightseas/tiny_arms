@@ -66,6 +66,7 @@ uint32_t CRC_Calc_32Bits(uint32_t* data, uint32_t size)
 	return CRC_CalcBlockCRC(data, size);
 }
 
+//Not supported in STM32F030
 uint16_t CRC_Calc_16Bits(uint16_t* data, uint32_t size)
 {
   uint16_t* dataEnd = data+size;
@@ -82,6 +83,7 @@ uint16_t CRC_Calc_16Bits(uint16_t* data, uint32_t size)
   return (uint16_t)CRC_GetCRC();
 }
 
+//Not supported in STM32F030
 uint8_t CRC_Calc_8Bits(uint8_t* data, uint32_t size)
 {
   uint8_t* dataEnd = data+size;

@@ -91,10 +91,10 @@ int I2C2_WriteCmd(uint8_t DevAddr, uint8_t CmdData)
 int I2C2_WriteByte(uint8_t DevAddr, uint8_t RegAddr, uint8_t RegData)
 {
 	uint8_t TmpData = RegData;
-	return I2C2_WriteBuffer(DevAddr, RegAddr, &TmpData, 1);
+	return I2C2_BufferWrite(DevAddr, RegAddr, &TmpData, 1);
 }
 
-int I2C2_WriteBuffer(uint8_t DevAddr, uint8_t RegAddr, uint8_t* DataBuf, uint16_t DataLen)
+int I2C2_BufferWrite(uint8_t DevAddr, uint8_t RegAddr, uint8_t* DataBuf, uint16_t DataLen)
 {
 	I2C2_Timeout = I2C_LONG_TIMEOUT;
 	while(I2C_GetFlagStatus(I2C2,I2C_FLAG_BUSY))
