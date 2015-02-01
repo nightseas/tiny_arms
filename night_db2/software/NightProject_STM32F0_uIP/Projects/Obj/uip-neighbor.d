@@ -1,0 +1,14 @@
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\uip-neighbor.c
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\uip-neighbor.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\uip.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\uipopt.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP_Arch\uip-conf.h
+.\obj\uip-neighbor.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\inttypes.h
+.\obj\uip-neighbor.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\Apps\hello-world\hello-world.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\uipopt.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\psock.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\pt.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\lc.h
+.\obj\uip-neighbor.o: ..\uIP_Stack\uIP\lc-switch.h
+.\obj\uip-neighbor.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\string.h

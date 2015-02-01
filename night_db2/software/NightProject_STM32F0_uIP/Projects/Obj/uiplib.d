@@ -1,0 +1,13 @@
+.\obj\uiplib.o: ..\uIP_Stack\uIP\uiplib.c
+.\obj\uiplib.o: ..\uIP_Stack\uIP\uip.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\uipopt.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP_Arch\uip-conf.h
+.\obj\uiplib.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\inttypes.h
+.\obj\uiplib.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\uiplib.o: ..\uIP_Stack\Apps\hello-world\hello-world.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\uipopt.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\psock.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\pt.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\lc.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\lc-switch.h
+.\obj\uiplib.o: ..\uIP_Stack\uIP\uiplib.h

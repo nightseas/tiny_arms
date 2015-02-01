@@ -1,0 +1,16 @@
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\httpd-fs.c
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\httpd.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP\psock.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP\uipopt.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP_Arch\uip-conf.h
+.\obj\httpd-fs.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\inttypes.h
+.\obj\httpd-fs.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\webserver.h
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\httpd.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP\pt.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP\lc.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP\lc-switch.h
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\httpd-fs.h
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\httpd-fsdata.h
+.\obj\httpd-fs.o: ..\uIP_Stack\uIP\uip.h
+.\obj\httpd-fs.o: ..\uIP_Stack\Apps\webserver\httpd-fsdata.c

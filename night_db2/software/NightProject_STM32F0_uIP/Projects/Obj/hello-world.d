@@ -1,0 +1,13 @@
+.\obj\hello-world.o: ..\uIP_Stack\Apps\hello-world\hello-world.c
+.\obj\hello-world.o: ..\uIP_Stack\Apps\hello-world\hello-world.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP\uipopt.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP_Arch\uip-conf.h
+.\obj\hello-world.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\inttypes.h
+.\obj\hello-world.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\hello-world.o: ..\uIP_Stack\Apps\hello-world\hello-world.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP\psock.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP\pt.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP\lc.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP\lc-switch.h
+.\obj\hello-world.o: ..\uIP_Stack\uIP\uip.h
+.\obj\hello-world.o: D:\Work\MDKu4\ARM\ARMCC\bin\..\include\string.h
